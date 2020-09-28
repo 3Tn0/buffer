@@ -1,4 +1,5 @@
 const request = require('request');
+const logger = require('./logger')
 
 function ClickHouse({ url, port, user, password }) {
     this.url = url;
@@ -14,7 +15,7 @@ function ClickHouse({ url, port, user, password }) {
             },
                 function (err, httpResponse, body) {
                     if (httpResponse.statusCode === 200) {
-                        resolve(body)
+                        resolve('ok')
                     }
                     reject(body)
                 });
@@ -30,7 +31,7 @@ const ch = new ClickHouse({
 })
 
 ch.query(`SELECT1 *`)
-    .catch(result => console.log("Connection to ClickHouse failed"))
+    .catch(result => logger.error("Connection to ClickHouse failed"))
 
 function insert(table, values) {
     let data = values.join(' ')

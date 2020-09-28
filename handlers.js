@@ -1,5 +1,6 @@
 const redisService = require('./redisService')
 const chService = require('./chService')
+const logger = require('./logger')
 
 const TABLES = process.env.TABLES ? process.env.TABLES.split(';') : []
 
@@ -12,12 +13,11 @@ function bufferTimeoutHandler(table) {
         })
         .then(result => {
             redisService.remove(table, recordsNumber)
-                .catch(console.log)
+                .catch(err => logger.error('Error removing values from buffer', err))
             return chService.insert(table, result)
         })
         .catch(err => {
-            console.log('error in redis read/remove or ch insert')
-            console.log(err)
+            logger.log('Error handling buffer timeout', err)
         })
 }
 
@@ -25,11 +25,11 @@ function bufferFullHandler(table, recordsNumber) {
     redisService.read(table, recordsNumber)
         .then(result => {
             redisService.remove(table, recordsNumber)
-                .catch(console.log)
+                .catch(err => logger.error('Error removing values from buffer', err))
             return chService.insert(table, result)
         })
         .catch(err => {
-            console.log('error in redis read/remove or ch insert')
+            logger.log('Error handling buffer full', err)
         })
 }
 
@@ -42,7 +42,7 @@ function getInitialQueHandler() {
         .then(lengths => {
             return tablesCopy.filter((_, index) => lengths[index])
         })
-        .catch(console.log)
+        .catch(err => logger.error('Error getting initial que', err))
 }
 
 module.exports = {

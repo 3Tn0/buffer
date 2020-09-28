@@ -1,5 +1,7 @@
 const { bufferFullHandler, bufferTimeoutHandler } = require('./handlers')
 
+const MAX_TIME = process.env.MAX_TIME || 15000
+
 module.exports = class Watcher {
 
     constructor() {
@@ -14,8 +16,13 @@ module.exports = class Watcher {
             this.isRunning = false
     }
 
-    resetTimer() {
+    stop() {
         clearTimeout(this.timer)
+        this.isRunning = false
+    }
+
+    resetTimer() {
+        this.stop()
         this.start()
     }
 
@@ -31,12 +38,13 @@ module.exports = class Watcher {
         if (index > -1) {
             this.buffersQue.splice(index, 1);
         }
+        if (!this.buffersQue.length)
+            this.stop()
     }
 
     bufferFull(table, recordsNumber) {
         this.removeFromQue(table)
         bufferFullHandler(table, recordsNumber)
-        this.resetTimer()
     }
 
     watch() {
@@ -47,7 +55,7 @@ module.exports = class Watcher {
                 bufferTimeoutHandler(table)
                 this.start()
             }
-        }, 10000)
+        }, MAX_TIME)
     }
 
 }

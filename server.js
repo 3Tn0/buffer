@@ -2,6 +2,7 @@ const http = require('http')
 const redisService = require('./redisService')
 const Watcher = require('./watcher')
 const { getInitialQueHandler, TABLES } = require('./handlers')
+const logger = require('./logger')
 
 const port = process.env.PORT || 3000
 const MAX_BUFFER_SIZE = process.env.MAX_BUFFER_SIZE || 50;
@@ -11,23 +12,23 @@ const watcher = new Watcher()
 getInitialQueHandler()
     .then(buffersQue => {
 
-        console.log(buffersQue)
         watcher.buffersQue = buffersQue
         watcher.start()
 
         const server = http.createServer(requestHandler)
         server.listen(port, (err) => {
             if (err) {
-                return console.log('something bad happened', err)
+                return logger.error('Error starting server', err)
             }
-            console.log(`server is listening on ${port}`)
+            logger.log(`server is listening on ${port}`)
         })
 
     })
-    .catch(console.log)
+    .catch(err => {
+        logger.error('Error while initiating server', err)
+    })
 
 const requestHandler = (request, response) => {
-
     switch (`${request.method}:${request.url}`) {
         case "POST:/buffer":
             let body = ''
@@ -56,7 +57,7 @@ const requestHandler = (request, response) => {
                         }
                     })
                     .catch(err => {
-                        console.log(err)
+                        logger.log('Error handling writing to buffer', err)
                         response.writeHead(500);
                         response.end(JSON.stringify({ message: err }));
                     })

@@ -1,4 +1,6 @@
-const redis = require("redis");
+const redis = require("redis")
+const logger = require("./logger")
+
 const client = redis.createClient({
     host: process.env.REDIS_HOST || '46.101.228.167',
     port: process.env.REDIS_PORT || 6379,
@@ -6,7 +8,7 @@ const client = redis.createClient({
 });
 
 client.on("error", function (error) {
-    console.error(error);
+    logger.error("Connection to Redis failed", error)
 });
 
 function writeToBuffer(table, values) {
