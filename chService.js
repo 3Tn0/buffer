@@ -24,13 +24,13 @@ function ClickHouse({ url, port, user, password }) {
 }
 
 const ch = new ClickHouse({
-    url: process.env.CH_URL || 'http://127.0.0.1',
-    port: process.env.CH_PORT || 8123,
+    url: 'http://' + (process.env.CH_HOST || '127.0.0.1'),
+    port: Number(process.env.CH_PORT) || 8123,
     user: process.env.CH_USER || 'default',
-    password: process.env.CH_PASSWORD || '3658526admin'
+    password: process.env.CH_PASSWORD || ''
 })
 
-ch.query(`SELECT1 *`)
+ch.query(`SELECT *`)
     .catch(result => logger.error("Connection to ClickHouse failed"))
 
 function insert(table, values) {

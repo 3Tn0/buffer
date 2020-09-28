@@ -1,6 +1,6 @@
 const { bufferFullHandler, bufferTimeoutHandler } = require('./handlers')
 
-const MAX_TIME = process.env.MAX_TIME || 15000
+const MAX_TIME = process.env.MAX_TIME * 1000 || 15000
 
 module.exports = class Watcher {
 

@@ -4,8 +4,8 @@ const Watcher = require('./watcher')
 const { getInitialQueHandler, TABLES } = require('./handlers')
 const logger = require('./logger')
 
-const port = process.env.PORT || 3000
-const MAX_BUFFER_SIZE = process.env.MAX_BUFFER_SIZE || 50;
+const port = Number(process.env.PORT) || 3000
+const MAX_BUFFER_SIZE = Number(process.env.MAX_BUFFER_SIZE) || 50;
 
 const watcher = new Watcher()
 

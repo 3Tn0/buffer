@@ -16,8 +16,11 @@ function bufferTimeoutHandler(table) {
                 .catch(err => logger.error('Error removing values from buffer', err))
             return chService.insert(table, result)
         })
+        .then(result => {
+            logger.log(`Data stored to CH table '${table}'`)
+        })
         .catch(err => {
-            logger.log('Error handling buffer timeout', err)
+            logger.error('Error handling buffer timeout', err)
         })
 }
 
@@ -27,6 +30,9 @@ function bufferFullHandler(table, recordsNumber) {
             redisService.remove(table, recordsNumber)
                 .catch(err => logger.error('Error removing values from buffer', err))
             return chService.insert(table, result)
+        })
+        .then(result => {
+            logger.log(`Data stored to CH table '${table}'`)
         })
         .catch(err => {
             logger.log('Error handling buffer full', err)
