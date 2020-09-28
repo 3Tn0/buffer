@@ -14,8 +14,7 @@ To configure the app you can set environment variables
 | REDIS_HOST     | 127.0.0.1 | Redis host |
 | REDIS_PORT     | 6379      | Redis server port |
 | REDIS_PASSWORD |           | ClickHouse server password |
-| REDIS_PORT     | 6379      | Redis server port |
-| MAX_TIME       | 50        | Writing buffer to ClickHouse timeout |
+| MAX_TIME       | 15     | Writing buffer to ClickHouse timeout (seconds) |
 | MAX_BUFFER_SIZE| 50        | Maximum buffer size before immediate writing |
 | TABLES         |           | ClickHouse table names separated by ';' (example: foo;bar) |
 
@@ -24,7 +23,7 @@ To configure the app you can set environment variables
 - git clone https://github.com/3Tn0/buffer.git
 - cd buffer
 - npm i
-- node index
+- node server
 
 ## using
 To write data to the buffer, you need to send an ```http POST``` request to ```http://yourserveraddress:3000/buffer``` with the following body:
