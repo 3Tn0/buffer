@@ -24,7 +24,7 @@ To configure the app you can set environment variables
 - git clone https://github.com/3Tn0/buffer.git
 - cd buffer
 - npm i
-- node index
+- node server
 
 ## using
 To write data to the buffer, you need to send an ```http POST``` request to ```http://yourserveraddress:3000/buffer``` with the following body:
