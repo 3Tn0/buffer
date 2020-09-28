@@ -46,4 +46,4 @@ where:
  
  data will be moved to ClickHouse when the timeout ```MAX_TIME``` expires or the buffer size exceeds ```MAX_BUFFER_SIZE```
  
- each table has its own buffer, which is added to the queue for writing, after ```MAX_TIME``` exceeds the first buffer from the queue is written to ClickHouse
+ each table has its own buffer, which is added to the queue for writing, after ```MAX_TIME``` expires the first buffer from the queue is written to ClickHouse
