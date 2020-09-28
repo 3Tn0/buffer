@@ -14,7 +14,6 @@ To configure the app you can set environment variables
 | REDIS_HOST     | 127.0.0.1 | Redis host |
 | REDIS_PORT     | 6379      | Redis server port |
 | REDIS_PASSWORD |           | ClickHouse server password |
-| REDIS_PORT     | 6379      | Redis server port |
 | MAX_TIME       | 15     | Writing buffer to ClickHouse timeout (seconds) |
 | MAX_BUFFER_SIZE| 50        | Maximum buffer size before immediate writing |
 | TABLES         |           | ClickHouse table names separated by ';' (example: foo;bar) |
